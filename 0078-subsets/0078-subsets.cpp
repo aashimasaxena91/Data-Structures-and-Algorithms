@@ -1,20 +1,20 @@
 class Solution {
 public:
-    void soln(vector<int>& nums, int n, vector<vector<int>>& ans, vector<int> & temp, int i ){
-        if(i>n) return;
+    
+    void ans(vector<int>& nums, int n, int i,vector<vector<int>> & soln, vector<int> temp){
         if(i==n){
-            ans.push_back(temp);
+            soln.push_back(temp);
             return;
         }
-        soln(nums, n, ans, temp, i+1);
+        ans(nums, n, i+1, soln, temp);
         temp.push_back(nums[i]);
-        soln(nums, n, ans, temp, i+1);
-        temp.pop_back();
+        ans(nums, n, i+1, soln, temp);
     }
+    
     vector<vector<int>> subsets(vector<int>& nums) {
-         vector<vector<int>> ans;
+        vector<vector<int>>soln;
         vector<int> temp;
-        soln(nums, nums.size(), ans, temp, 0);
-        return ans;
+        ans(nums, nums.size(),0,soln, temp );
+        return soln;
     }
 };
