@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    void soln(string digits, int n, unordered_map<char, vector<char>> mp, string temp, vector<string>& res, int i ){
+    void soln(string digits, int n, unordered_map<char, vector<char>> mp, string& temp, vector<string>& res, int i ){
         
         if(i>=n){
             res.push_back(temp);
