@@ -1,16 +1,17 @@
 class Solution {
 public:
     
-    bool isRepeat(string str,vector<int> &v ){
+    bool isRepeat(string &str,vector<int> &v ){
         vector<int> self(26,0);
         for(int i=0;i<str.size();i++){
             if(self[str[i] - 'a'] ==1) return false;
+            if(v[str[i] - 'a'] ==1) return false;
             self[str[i] - 'a'] =1;
         }
-        for(int i=0;i<str.size();i++){
-            if(v[str[i] - 'a'] ==1) return false;
+//         for(int i=0;i<str.size();i++){
+//             if(v[str[i] - 'a'] ==1) return false;
             
-        }
+//         }
         return true;
     }
     
