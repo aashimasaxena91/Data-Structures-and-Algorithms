@@ -1,9 +1,6 @@
 class Solution {
 public:
-    int GCD(int A, int B){
-        if(B==0) return A;
-        return GCD(B, A%B);
-    }
+
     int findGCD(vector<int>& nums) {
         int minA = INT_MAX, maxB = INT_MIN;
         for(int i=0;i<nums.size();i++){
@@ -11,6 +8,12 @@ public:
             
             maxB= max(maxB, nums[i]);
         }
-        return GCD(minA, maxB);
+        
+        while(maxB!=0){
+            int temp = minA%maxB;
+            minA = maxB;
+            maxB = temp;
+        }
+        return minA;
     }
 };
