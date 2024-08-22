@@ -10,26 +10,12 @@
  */
 class Solution {
 public:
-    ListNode* rev(ListNode* head){
-        ListNode* prev = NULL, *cur = head;
-        while(head!=NULL){
-            head= head->next;
-            cur->next = prev;
-            prev = cur;
-            cur = head;
-        }
-        return prev;
-    }
     int getDecimalValue(ListNode* head) {
-        if(head->next == NULL) return head->val;
-        head = rev(head);
-        int x=0, i=0;
+        int ans =0;
         while(head!=NULL){
-            if(head->val == 1)
-                x+= pow(2,i);
-            i++;
-            head= head->next;
+            ans= ans*2 + head->val;
+            head=head->next;
         }
-        return x;
+        return ans;
     }
 };
