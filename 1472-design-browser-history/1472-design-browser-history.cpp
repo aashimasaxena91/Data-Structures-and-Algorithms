@@ -1,54 +1,32 @@
-struct Node {
-    string page;
-    Node* next;
-    Node* prev;
-    Node(){
-        next = NULL;
-        prev=NULL;
-    }
-    Node(string url){
-        page = url;
-        next = NULL;
-        prev=NULL;
-    }
-};
-
 class BrowserHistory {
 public:
-    Node* head;
-    Node* current;
+    stack<string> s1, s2;
     BrowserHistory(string homepage) {
-        head= new Node(homepage);
-        current = head;
+        s1.push(homepage);
     }
     
     void visit(string url) {
-        Node* temp= new Node(url);
-        Node* q = current->next;
-        while(q!=NULL){
-            Node* w = q;
-            q=q->next;
-            delete w;
+        s1.push(url);
+        while(!s2.empty()){
+            s2.pop();
         }
-        current->next = temp;
-        temp->prev = current;
-        current = current->next;
     }
     
     string back(int steps) {
-        while(steps>0 && current->prev!=NULL){
-            steps--;
-            current = current->prev;
+        while(steps-- && s1.size()>1){
+            s2.push(s1.top());
+            s1.pop();
         }
-        return current->page;
+        return s1.top();
     }
     
     string forward(int steps) {
-        while(steps>0 && current->next!=NULL){
-            steps--;
-            current = current->next;
+         while(steps-- && !s2.empty()){
+
+            s1.push(s2.top());
+            s2.pop();
         }
-        return current->page;
+        return s1.top();
     }
 };
 
