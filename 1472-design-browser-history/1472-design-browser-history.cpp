@@ -1,32 +1,32 @@
 class BrowserHistory {
 public:
-    stack<string> s1, s2;
+    list<string> browser;
+    list<string> :: iterator it;
     BrowserHistory(string homepage) {
-        s1.push(homepage);
+        browser.push_back(homepage);
+        it = browser.begin();
     }
     
     void visit(string url) {
-        s1.push(url);
-        while(!s2.empty()){
-            s2.pop();
-        }
+        auto delPtr = it;
+        delPtr++;
+        browser.erase(delPtr, browser.end());
+        browser.push_back(url);
+        it++;
     }
     
     string back(int steps) {
-        while(steps-- && s1.size()>1){
-            s2.push(s1.top());
-            s1.pop();
+        while(steps-- && it!=browser.begin()){
+            it--;
         }
-        return s1.top();
+        
+     
+        return *it;
     }
     
     string forward(int steps) {
-         while(steps-- && !s2.empty()){
-
-            s1.push(s2.top());
-            s2.pop();
-        }
-        return s1.top();
+        while(steps-- && it!=--browser.end()) it++;
+        return *it;
     }
 };
 
