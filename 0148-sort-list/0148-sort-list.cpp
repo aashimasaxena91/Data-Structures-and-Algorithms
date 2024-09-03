@@ -10,24 +10,33 @@
  */
 class Solution {
 public:
+    ListNode* merge2Lists(ListNode* A, ListNode* B){
+        if(!A) return B;
+        if(!B) return A;
+        ListNode* p ;
+        if(A->val<=B->val){
+            p = A;
+            A->next = merge2Lists(A->next, B);
+        }else {
+            p = B;
+            B->next = merge2Lists(A, B->next);
+        }
+        return p;
+    }
     ListNode* sortList(ListNode* head) {
-        if(!head || !head->next) return head;
-        ListNode* k = head;
-        vector<int> v;
-        while(k!=NULL){
-            int q = k->val;
-            v.push_back(q);
-            k= k->next;
+        if(head == NULL || head->next == NULL) return head;
+        ListNode *fast = head, *slow  = head; 
+        while(fast->next && fast->next->next){
+            fast = fast->next->next;
+            slow = slow->next;
         }
-        sort(v.begin(), v.end());
-        ListNode* temphead = new ListNode();
-        ListNode* temp = temphead;
-        for(int i =0;i<v.size();i++){
-            auto s = v[i];
-            ListNode* e = new ListNode(s);
-            temp->next = e;
-            temp = temp->next;
-        }
-        return temphead->next;
+        ListNode* list2 = slow->next;
+        slow->next = NULL;
+        head = sortList(head);
+        list2 = sortList(list2);
+        head = merge2Lists(head, list2);
+        
+        return head;
+        
     }
 };
