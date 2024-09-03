@@ -1,27 +1,27 @@
 class Solution {
 public:
-    bool backspaceCompare(string q, string t) {
-        stack<char> s, w;
-        for(int i=0;i<q.length();i++){
-            if(q[i] == '#'){
-                if(!s.empty())
-                s.pop();
-            }else s.push(q[i]);
+    bool backspaceCompare(string s, string t) {
+        int i = s.size()-1, j = t.size()-1, back=0;
+        while(true){
+            back =0;
+            while(i>=0 && (back>0 || s[i] == '#')){
+                back += s[i] == '#' ? +1: -1;
+                i--;
+                
+            }
+            back =0;
+            while(j>=0 && (back>0 || t[j] == '#')){
+                back += t[j] == '#' ? +1: -1;
+                j--;
+                
+            }
+            
+            if(i>=0 && j>=0 && s[i] == t[j]){
+                i--;
+                j--;
+            }else
+                break;
         }
-       
-        for(int i=0;i<t.length();i++){
-            if(t[i] == '#'){
-                if(!w.empty())
-                w.pop();
-            }else w.push(t[i]);
-        }
-        if(s.size()!=w.size()) return false;
-
-        while(!s.empty() && !w.empty()){
-            if(s.top()!=w.top()) return false;
-            w.pop();
-            s.pop();
-        }
-       return true;
+        return i==-1 && j==-1;
     }
 };
