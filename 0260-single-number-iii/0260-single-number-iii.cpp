@@ -1,17 +1,18 @@
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
-        if(nums.size()<4) return nums;
-        unordered_map<int, int> mp;
+        long bitmask =0;
+        for(auto k :nums){
+            bitmask^= k;
+        }
+        long t = (bitmask & (bitmask-1)) ^ bitmask;
+        int notFound=0, found=0;
         for(auto k: nums){
-            mp[k]++;
+            if(k&t){
+                notFound^= k;
+            }else
+                found^=k;
         }
-        vector<int> m;
-        for(auto it: mp){
-            if(it.second == 1)
-                m.push_back(it.first);
-            
-        }
-        return m;
+        return {found, notFound};
     }
 };
