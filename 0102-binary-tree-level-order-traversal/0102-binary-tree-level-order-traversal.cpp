@@ -11,23 +11,16 @@
  */
 class Solution {
 public:
+    void soln(TreeNode* root, int depth, vector<vector<int>> & ans ){
+        if(root == NULL) return ;
+        if(depth == ans.size()) ans.push_back(  vector<int> ());
+        ans[depth].push_back(root->val);
+        soln(root->left, depth+1, ans);
+        soln(root->right, depth+1, ans);
+    }
     vector<vector<int>> levelOrder(TreeNode* root) {
-        if(root==NULL ) return {};
         vector<vector<int>> ans;
-        queue<TreeNode*> q;
-        q.push(root);
-        while(!q.empty()){
-            int sz = q.size();
-            vector<int> temp;
-            while(sz--){
-                TreeNode* cur = q.front();
-                q.pop();
-                if(cur->left) q.push(cur->left);
-                if(cur->right) q.push(cur->right);
-                temp.push_back(cur->val);
-            }
-            ans.push_back(temp);
-        }
+        soln(root, 0, ans);
         return ans;
     }
 };
