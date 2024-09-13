@@ -1,18 +1,17 @@
 class Solution {
 public:
     int maxScore(string s) {
-        int ones = 0, zeros=0, res=0;
-        for(int i=0;i<s.size();i++){
-            if(s[i]=='1') ones++;
-        }
+        int ones = 0, zeros=0, res=INT_MIN;
+
         for(int i=0;i<s.size()-1;i++){
             if(s[i]=='0'){
                 zeros++;
             }
             if(s[i]=='1')
-                ones--;
-            res=max(res, ones+zeros);
+                ones++;
+            res=max(res, zeros-ones);
         }
-        return res;
+        if(s[s.size()-1]=='1' )ones++;
+        return res+ones;
     }
 };
