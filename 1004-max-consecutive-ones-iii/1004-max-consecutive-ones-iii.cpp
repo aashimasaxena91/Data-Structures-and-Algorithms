@@ -12,14 +12,15 @@ public:
                 zer++;
             }
             if(zer>k ){
-                 while(zer>k){
-                     if(nums[j] == 0) zer--;
-                     j++;
-                 }
+                if(nums[j]==0) zer--;
+                j++;
+                
             } 
-            
-                ans= i-j+1;
-                res= max(ans, res);
+             ans= i-j+1;
+            if( ans> res){
+               
+                res=ans;
+            }
         }
         return res;
     }
