@@ -1,30 +1,29 @@
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& nums) {
-        int  n = nums.size();
-        if(n==1) return nums[0];
-        vector<int> nG(n,n);
-        vector<int> pG(n, -1);
-        stack<int> s,q;
-        
-        for(int i=n-1;i>=0;i--){
-            while(!s.empty() && nums[i]<=nums[s.top()]){
+    int largestRectangleArea(vector<int>& heights) {
+        int ans =0;
+        int res=0;
+        stack<int> s;
+        vector<int> pS (heights.size(),0);
+        for(int i=0;i<heights.size();i++){
+            while(!s.empty() && heights[s.top()] >= heights[i]){
+                ans = max(ans, heights[s.top()] * (i-pS[s.top()]-1));
                 s.pop();
             }
-            if(!s.empty())
-                nG[i] = s.top();
+            
+            pS[i] = s.empty() ? -1 : s.top();
             s.push(i);
+        
+                          
         }
-        int ans =0;
-        for(int i=0;i<n;i++){
-            while(!q.empty() && nums[i]<=nums[q.top()]){
-                q.pop();
-            }
-            if(!q.empty())
-                pG[i] = q.top();
-            q.push(i);
-            ans = max(ans, nums[i] * (nG[i] - pG[i] - 1));
+        int k = heights.size();
+        
+        while(!s.empty()){
+            ans = max(ans, heights[s.top()] * (k-pS[s.top()]-1));
+        
+                s.pop();
         }
+        
         return ans;
         
     }
