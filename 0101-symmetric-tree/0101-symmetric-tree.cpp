@@ -11,14 +11,24 @@
  */
 class Solution {
 public:
-    bool func(TreeNode* a, TreeNode* b){
-        if(a==NULL || b==NULL)
-            return !a && !b;
-        if(a->val!=b->val) return false;
-        return func(a->left, b->right) && func(a->right, b->left);
-    }
     bool isSymmetric(TreeNode* root) {
-       return func(root, root);
-        
+        queue<TreeNode*> q;
+        q.push(root);
+        q.push(root);
+        while(!q.empty()){
+            TreeNode* a = q.front();
+            q.pop();
+            TreeNode* b = q.front();
+            q.pop();
+            if(!a && !b) continue;
+            if((a && !b) ||(!a && b)) return false;
+            if(a->val!=b->val) return false;
+         q.push(a->left);
+            q.push(b->right);
+           
+            q.push(a->right);
+            q.push(b->left);
+        }
+        return true;
     }
 };
