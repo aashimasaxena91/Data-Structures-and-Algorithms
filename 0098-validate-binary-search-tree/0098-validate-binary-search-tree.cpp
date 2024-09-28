@@ -11,29 +11,12 @@
  */
 class Solution {
 public:
+    bool validate(TreeNode* root, long l, long r){
+        if(root ==NULL) return true;
+        if( root->val<= l ||root->val>=r) return false;
+        return validate(root->left, l, root->val) && validate(root->right, root->val, r);
+    }
     bool isValidBST(TreeNode* root) {
-        vector<int> k;
-        while(root){
-            if(root->left==NULL){
-                k.push_back(root->val);
-                root=root->right;
-            }else{
-                TreeNode* r = root->left;
-                while(r->right && r->right!=root)
-                    r=r->right;
-                if(r->right==NULL){
-                    r->right = root;
-                    root=root->left;
-                }else{
-                    r->right =NULL;
-                    k.push_back(root->val);
-                    root=root->right;
-                }
-            }
-        }
-        for(int i=1;i<k.size();i++){
-            if(k[i-1]>=k[i]) return false;
-        }
-        return true;
+        return validate(root, LONG_MIN, LONG_MAX);
     }
 };
