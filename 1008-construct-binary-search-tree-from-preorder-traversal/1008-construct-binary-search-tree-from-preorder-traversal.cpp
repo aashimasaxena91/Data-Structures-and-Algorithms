@@ -11,28 +11,16 @@
  */
 class Solution {
 public:
+    TreeNode* soln(vector<int> & preorder, int ubound, int &i){
+        if(i==preorder.size() || preorder[i]>ubound) return NULL;
+        TreeNode* root = new TreeNode(preorder[i]);
+        i++;
+        root->left = soln(preorder, root->val, i);
+        root->right = soln(preorder, ubound, i);
+        return root;
+    }
     TreeNode* bstFromPreorder(vector<int>& preorder) {
-        stack<TreeNode*> s;
-        TreeNode* head = new TreeNode(preorder[0]);
-        if(preorder.size()==1) return head;
-        TreeNode* root = head;
-        int i=1;
-       while(i<preorder.size()){
-            if(preorder[i]<root->val){
-                s.push(root);
-                root->left = new TreeNode(preorder[i]);
-                root=root->left;
-            }else{
-                
-                while(!s.empty() && s.top()->val<preorder[i]){
-                     root = s.top();
-                    s.pop();
-                }
-                root->right = new TreeNode(preorder[i]);
-                root =root->right;
-            }
-           i++;
-        }
-        return head;
+        int i=0;
+        return soln(preorder, INT_MAX, i);
     }
 };
