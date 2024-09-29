@@ -10,29 +10,25 @@
  * };
  */
 class Solution {
+    TreeNode* prev = NULL, *first = NULL, * second = NULL;
 public:
-    void trav(TreeNode* root, vector<int> & inorder){
-        if(!root) return;
-       
-        trav(root->left, inorder);
-          inorder.push_back(root->val);
-
-        trav(root->right, inorder);
-    }
-    void trav2(TreeNode* root, vector<int> & inorder, int &i){
-         if(!root || i>=inorder.size()) return;
-        
-        trav2(root->left, inorder, i);
-       
-         if(root->val!= inorder[i]) root->val = inorder[i];
- i++;
-        trav2(root->right, inorder, i);
+    void inorder(TreeNode* root){
+        if(root==NULL) return;
+        inorder(root->left);
+            if(prev!=NULL){
+                   if(prev->val>= root->val){
+                       if(!first){
+                           first = prev;
+                       }
+                      
+                           second = root;
+                   }
+            }
+        prev = root;
+        inorder(root->right);
     }
     void recoverTree(TreeNode* root) {
-        vector<int> inorder;
-               int i=0;
-        trav(root, inorder);
-sort(inorder.begin(), inorder.end());
-        trav2(root, inorder, i);
+        inorder(root);
+        swap(first->val, second->val);
     }
 };
