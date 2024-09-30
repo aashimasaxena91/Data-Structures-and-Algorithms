@@ -11,40 +11,51 @@
  */
 class Solution {
 public:
-    
-    void inorder(vector<int>& ans, TreeNode* root){
-        if(!root) return;
-        while(root){
-            if(root->left==NULL){
-                ans.push_back(root->val);
-                root=root->right;
-            }else{
-                TreeNode* prev = root->left;
-                while(prev->right && prev->right!=root){
-                    prev = prev->right;
-                }
-                if(prev->right==NULL){
-                    prev->right = root;
-                    root=root->left;
-                }else{
-                    prev->right = NULL;
-                    ans.push_back(root->val);
-                    root=root->right;
-                }
-            }
+    int nxt(stack<TreeNode*>& s){
+          if(s.empty()) return INT_MAX;
+        TreeNode* t = s.top();
+        s.pop();
+        int k = t->val;
+        t=t->right;
+        while(t){
+            s.push(t);
+            t=t->left;
         }
+        return k;
+    }
+    int bef(stack<TreeNode*>& s){
+        if(s.empty()) return INT_MAX;
+        TreeNode* t = s.top();
+        s.pop();
+        int k = t->val;
+        t=t->left;
+        while(t){
+            s.push(t);
+            t=t->right;
+        }
+        return k;
     }
     bool findTarget(TreeNode* root, int k) {
-        vector<int> ans;
-        inorder(ans, root);
-        int l = 0, r = ans.size()-1;
-        while(l<r){
-            if(ans[l]+ans[r]==k){
+        stack<TreeNode*> le,re;
+        TreeNode* cur= root;
+        while(cur){
+            le.push(cur);
+            cur=cur->left;
+        }
+        cur = root;
+        while(cur){
+            re.push(cur);
+            cur=cur->right;
+        }
+        int l = nxt(le);
+        int r = bef(re);
+        while(l!=INT_MAX && r!=INT_MAX && l<r){
+            if(l+r == k){
                 return true;
-            }else if(ans[l]+ans[r]<k)
-                l++;
-            else
-                r--;
+            }else if(l+r<k){
+                l = nxt(le);
+            }else
+                r = bef(re);
         }
         return false;
     }
