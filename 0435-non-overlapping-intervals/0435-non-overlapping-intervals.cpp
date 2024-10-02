@@ -1,25 +1,18 @@
 class Solution {
 public:
     static bool comp(vector<int> a, vector<int> b){
-        return a[0]<b[0];
+        return a[1]<b[1];
     }
     int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+        if(intervals.size()==1 ) return 0;
         sort(intervals.begin(), intervals.end(), comp);
-        int count =0, left =0, right =1;
-        while(right<intervals.size()){
-            if(intervals[right][0]>=intervals[left][1]){
-                left= right;
-                right++;
-            }else if(intervals[left][1]>intervals[right][1]){
-                left = right;
-                right++;
-                count++;
-            }else
-            {
-                right++;
-                count++;
+        int ct =1, f = intervals[0][1];
+        for(int i=1;i<intervals.size();i++){
+            if(intervals[i][0]>=f){
+                ct++;
+                f = intervals[i][1];
             }
         }
-        return count;
+        return intervals.size()-ct;
     }
 };
