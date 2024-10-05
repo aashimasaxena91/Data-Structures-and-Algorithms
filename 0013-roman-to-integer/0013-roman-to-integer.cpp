@@ -13,22 +13,11 @@ public:
         int k=0;
         while(i>=0){
             int l = mp[s[i]];
-            if(i!=0 && (s[i] == 'V' ||s[i] == 'X')){
-                if(s[i-1] == 'I'){
-                    i--;
-                    l=l-1;
+            if(i!=0 && (mp[s[i]] >mp[s[i-1]])){
+                      i--;
+                    l=l-mp[s[i]];
                 }
-            }else if(i!=0 && (s[i] == 'L' ||s[i] == 'C')){
-                if(s[i-1] == 'X'){
-                    i--;
-                    l=l-10;
-                }
-            } else if(i!=0 && (s[i] == 'D' ||s[i] == 'M')){
-                if(s[i-1] == 'C'){
-                    i--;
-                    l=l-100;
-                }
-            }
+            
             k+=l;
             i--;
         }
