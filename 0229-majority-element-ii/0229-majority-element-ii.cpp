@@ -1,35 +1,49 @@
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
-        int ele1 = nums[0], ele2 = nums[0], ct1=0, ct2=0;
-        int n=nums.size();
+        int k =3;
+        vector<pair<int, int>> temp (k-1, {INT_MIN, 0});
+        
         for(int i=0;i<nums.size();i++){
-            if(nums[i]==ele1){
-                ct1++;
-            }else if(nums[i]==ele2){
-                ct2++;
-            }else if(ct1==0){
-                ele1 = nums[i];
-                ct1++;
-            }else if(ct2==0){
-                ele2= nums[i];
-                ct2++;
-            }else{
-                ct1--;
-                ct2--;
+            int j;
+            for(j=0;j<k-1;j++){
+                if(temp[j].first == nums[i]){
+                    temp[j].second++;
+                    break;
+                }
+            }
+            if(j==k-1){
+                int l;
+                for(l=0;l<k-1;l++){
+                    if(temp[l].second == 0){
+                         temp[l] = {nums[i], 1};
+                        break;
+                    }
+                }
+                if(l==k-1){
+                    for(int h=0;h<k-1;h++){
+                        temp[h].second--;
+                    }
+                }
             }
         }
-        ct1=0; ct2=0;
-        for(int i=0;i<nums.size();i++){
-            if(nums[i]==ele1)
-                ct1++;
-            else if(nums[i]==ele2)
-                ct2++;
+        for(int i=0;i<temp.size();i++){
+            temp[i].second =0;
+            
         }
         vector<int> ans;
-        if(ct1>n/3) ans.push_back(ele1);
-        if(ct2>n/3) ans.push_back(ele2);
+        for(int j=0;j<k-1;j++){
+            int ac=0;
+            for(int i=0;i<nums.size();i++){
+                if(nums[i]==temp[j].first){
+                    ac++;
+                    
+                }
+            }
+            if(ac>nums.size()/3){
+                        ans.push_back(temp[j].first);
+                    }
+        }
         return ans;
-        
     }
 };
